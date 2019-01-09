@@ -8,21 +8,20 @@ document.getElementById("send").addEventListener("click", function() {
   if (handle.value == "" || message.value == "") {
     document.getElementById("output").innerHTML += "<p>enter your name and message</p>";
     document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight - document.getElementById("output").clientHeight;
-  }
-  else {
+  } else {
     var currentdate = new Date();
 
     socket.emit("chat", {
-      datetime:currentdate.getDate() + "/" + (currentdate.getMonth()+1) + "/" + currentdate.getFullYear() + " @ " + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":"  + currentdate.getSeconds(),
-      message:message.value,
-      handle:handle.value
+      datetime: currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " @ " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds(),
+      message: message.value,
+      handle: handle.value
     });
     document.getElementById("message").value = null;
   }
 });
 
 
-socket.on("chatsaved", function(data){
+socket.on("chatsaved", function(data) {
   if (data.length) {
     document.getElementById("output").innerHTML = "";
     for (var i = 0; i < data.length; i++) {
@@ -33,7 +32,7 @@ socket.on("chatsaved", function(data){
 });
 
 //when receiving data from the socket add it to the html and scroll the window to the bottom
-socket.on("chat", function(data){
+socket.on("chat", function(data) {
   document.getElementById("output").innerHTML += "<p>[" + data.datetime + "] " + data.handle + " : " + data.message + "</p>";
   document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight - document.getElementById("output").clientHeight;
 });
