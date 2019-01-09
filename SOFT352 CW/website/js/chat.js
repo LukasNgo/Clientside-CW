@@ -11,6 +11,7 @@ document.getElementById("send").addEventListener("click", function() {
   } else {
     var currentdate = new Date();
 
+    //clicking the button emits current date, name of the person sending the message and the message itself and sends it to the server which saves it into MongoDB database
     socket.emit("chat", {
       datetime: currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " @ " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds(),
       message: message.value,
@@ -20,7 +21,7 @@ document.getElementById("send").addEventListener("click", function() {
   }
 });
 
-
+//when the client receives a socket data called chatsaved it knows it contains an array of chats from the database and displays it in the chat window
 socket.on("chatsaved", function(data) {
   if (data.length) {
     document.getElementById("output").innerHTML = "";
