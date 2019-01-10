@@ -6,8 +6,8 @@ var handle = document.getElementById("handle");
 //add click event to the button and send message and handle values on click
 document.getElementById("send").addEventListener("click", function() {
   if (handle.value == "" || message.value == "") {
-    document.getElementById("output").innerHTML += "<p>enter your name and message</p>";
-    document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight - document.getElementById("output").clientHeight;
+    document.getElementById("output").innerHTML = "<p>enter your name and message</p>" + document.getElementById("output").innerHTML;
+    //document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight - document.getElementById("output").clientHeight;
   } else {
     var currentdate = new Date();
 
@@ -28,12 +28,12 @@ socket.on("chatsaved", function(data) {
     for (var i = 0; i < data.length; i++) {
       document.getElementById("output").innerHTML += "<p>[" + data[i].time + "] " + data[i].name + " : " + data[i].message + "</p>";
     }
-    document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight - document.getElementById("output").clientHeight;
+    //document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight - document.getElementById("output").clientHeight;
   }
 });
 
-//when receiving data from the socket add it to the html and scroll the window to the bottom
+//when receiving data from the socket add it to the html and scroll the window to the bottom(revised)
 socket.on("chat", function(data) {
-  document.getElementById("output").innerHTML += "<p>[" + data.datetime + "] " + data.handle + " : " + data.message + "</p>";
-  document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight - document.getElementById("output").clientHeight;
+  document.getElementById("output").innerHTML = "<p>[" + data.datetime + "] " + data.handle + " : " + data.message + "</p>" + document.getElementById("output").innerHTML;
+  //document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight - document.getElementById("output").clientHeight;
 });

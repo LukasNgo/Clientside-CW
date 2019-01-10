@@ -24,15 +24,14 @@ io.on("connection", function(socket) {
     var scoredb = client.db("snakedb");
 
     //get messages from database and sort by id
-    db.collection("chatdb").find().limit(50).sort({
-      _id: 1
-    }).toArray(function(err, result) {
+    db.collection("chatdb").find().limit(50).sort({_id: -1}).toArray(function(err, result) {
       if (err) {
         throw err;
       }
       io.sockets.emit("chatsaved", result);
     });
 
+    //when a socket with chat message is received emit the message back to clients and insert the message into the database
     socket.on("chat", function(data) {
       io.sockets.emit("chat", data);
       db.collection("chatdb").insertOne({
@@ -43,15 +42,14 @@ io.on("connection", function(socket) {
     });
 
     //get high scores for snake Minigames and sort by highest score
-    scoredb.collection("snakedb").find().limit(50).sort({
-      message: -1
-    }).toArray(function(err, result) {
+    scoredb.collection("snakedb").find().limit(50).sort({message: -1}).toArray(function(err, result) {
       if (err) {
         throw err;
       }
       io.sockets.emit("scoresaved", result);
     });
 
+    //when a socket with score message is received emit the message back to clients and insert the message into the database
     socket.on("score", function(data) {
       io.sockets.emit("score", data);
       scoredb.collection("snakedb").insertOne({
